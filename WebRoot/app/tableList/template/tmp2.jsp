@@ -1,13 +1,15 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<link type="text/css" href="app/tableList/template/tmp2.css">
 
 <script type="text/javascript"
 	src="/hncm/app/tableList/template/tmp2.js"></script>
 
-<div>
-	<span>注册企业列表</span><span><button type="button"
-			class="btn btn-success btn-lg">+新增</button></span>
+
+<div class="page-header">
+  <h1>注册企业列表 <small></small><button type="button"
+			class="btn btn-sm" id="addbtn">+新增</button></h1>
 </div>
 
 <div class="list-table" id="detailDiv">

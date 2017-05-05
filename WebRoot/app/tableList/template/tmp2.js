@@ -70,7 +70,7 @@ function dealPage(tableHtml, data) {
 		tableHtml += '<td>'
 				+ moment(data[i].registertime).format('YYYY-MM-DD HH:mm')
 				+ '</td>';
-		tableHtml += '<td><span><button class="btn btn-link" type="button" onclick="selectCompanyById('
+		tableHtml += '<td><span><button class="btn btn-link" type="button" class="updateBtn" onclick="selectCompanyById('
 				+ data[i].companyid
 				+ ')" >修改</button></span><span><button class="btn btn-link btn-warning" type="button" onclick="updateRow('
 				+ data[i].companyid + ')" data-toggle="modal" data-target="#myModal">删除</button></span></td>';
@@ -100,6 +100,13 @@ function refreshCityOrCourty(data){
 function refreshModule(datas){
 	var url= '/hncm/company/company_getCompanyConfig.action';
 	var initcode={code:"0000"};
+	if(datas==null){
+		datas={
+				"province":"0",
+				"companytype":"0",
+				"city":"0"
+		}
+	}
 	$.ajax({
 		type:"post",
 		cache:"false",
@@ -107,7 +114,7 @@ function refreshModule(datas){
 		dataType:"json",
 		url:url,
 		success:function(data){
-			var companytype="";
+			var companytype="<option></option>";
 			for(var i=0;i<data.typeList.length;i++){
 				if(datas.companytype==data.typeList[i].type){
 					companytype+="<option value='"+data.typeList[i].type+"' selected='selected'>"+data.typeList[i].typename+"</option>";
@@ -117,7 +124,7 @@ function refreshModule(datas){
 			}
 			$('#companytype').html(companytype);
 			
-			var province="";
+			var province="<option></option>";
 			for(var i=0;i<data.areaList.length;i++){
 				if(datas.province==data.areaList[i].code){
 					province+="<option value='"+data.areaList[i].code+"' selected='selected'>"+data.areaList[i].name+"</option>";
@@ -127,13 +134,10 @@ function refreshModule(datas){
 			}
 			$('#province').html(province);
 			
-			console.log("1111");
 			var citylist = refreshCityOrCourty(datas.province);
-			console.log(citylist);
-			console.log("city");
-			var city="";
+			var city="<option></option>";
 			for(var i=0;i<citylist.areaList.length;i++){
-				if(datas.city==data.areaList[i].code){
+				if(datas.city==citylist.areaList[i].code){
 					city+="<option value='"+citylist.areaList[i].code+"' selected='selected'>"+citylist.areaList[i].name+"</option>";
 				}else{
 					city+="<option value='"+citylist.areaList[i].code+"'>"+citylist.areaList[i].name+"</option>";
@@ -142,7 +146,7 @@ function refreshModule(datas){
 			$('#city').html(city);
 			
 			var courtylist = refreshCityOrCourty(datas.city);
-			var courty="";
+			var courty="<option></option>";
 			for(var i=0;i<courtylist.areaList.length;i++){
 				if(datas.courty==courtylist.areaList[i].code){
 					courty+="<option value='"+courtylist.areaList[i].code+"' selected='selected'>"+courtylist.areaList[i].name+"</option>";
@@ -190,23 +194,91 @@ function selectCompanyById(data){
 	});
 }
 
-function updateRow(data) {
-	console.log(data);
-	$('#myModal').modal('show');  
-	var companyId = {
-		"companyId" : data
-	};
-	$.ajax({
-		type : "post",
-		cache : "false",
-		data : data,
-		dataType : "json",
-		url : "/hncm/company/company_getCompanyById.action",
-		success : function(data) {
-
+function updateData() {
+/*	var companyid=$('#companyid').val();
+	var companyname=$('#companyname').val();
+	var companytype=$('#companytype').val();
+	var leagalperson=$('#leagalperson').val();
+	var contactphone=$('#contactphone').val();
+	var registerfund=$('#registerfund').val();
+	var registertime=$('#registertime').val();
+	var province=$('#province').val();
+	var city=$('#city').val();
+	var address=$('#address').val();
+	var description=$('#description').val();
+	var courty=$('#courty').val();*/
+	/*{
+			"company.companyid":companyid,
+			"company.companyname":companyname,
+			"company.companytype":companytype,
+			"company.leagalperson":leagalperson,
+			"company.contactphone":contactphone,
+			"company.registerfund":registerfund,
+			"company.registertime":registertime,
+			"company.province":province,
+			"company.city":city,
+			"company.address":address,
+			"company.description":description,
+			"company.courty":courty
+	}*/
+	var url="/hncm/company/company_updateCompany.action";
+	
+	var datas= collectData();
+	ajaxPost(url, datas, function(data) {
+		if(data.status=="1"){
+			alert("change success");
+			$('#myModal').modal('hide');  
+		}else{
+			alert("something wrong");
 		}
+		
 	});
 }
+
+function collectData(){
+	var companyid=$('#companyid').val();
+	var companyname=$('#companyname').val();
+	var companytype=$('#companytype').val();
+	var leagalperson=$('#leagalperson').val();
+	var contactphone=$('#contactphone').val();
+	var registerfund=$('#registerfund').val();
+	var registertime=$('#registertime').val();
+	var province=$('#province').val();
+	var city=$('#city').val();
+	var address=$('#address').val();
+	var description=$('#description').val();
+	var courty=$('#courty').val();
+	 var datas={
+			"company.companyid":companyid,
+			"company.companyname":companyname,
+			"company.companytype":companytype,
+			"company.leagalperson":leagalperson,
+			"company.contactphone":contactphone,
+			"company.registerfund":registerfund,
+			"company.registertime":registertime,
+			"company.province":province,
+			"company.city":city,
+			"company.address":address,
+			"company.description":description,
+			"company.courty":courty
+	}
+	 return datas;
+}
+
+function insertData(){
+	var datas = collectData();
+	var url="/hncm/company/company_insertCompany.action";
+	ajaxPost(url, datas, function(data) {
+		if(data.status=="1"){
+			alert("insert success");
+			$('#myModal').modal('hide');  
+		}else{
+			alert("something wrong---");
+		}
+		
+	});
+}
+
 
 $(document).ready(function(){
 	$("#province").change(function(){
@@ -230,7 +302,7 @@ $(document).ready(function(){
 		$('#courty').html(tmp);
 	})
 	
-	$('#updatebutton').click(function(){
+	/*$('#updatebutton').click(function(){
 		var companyid=$('#companyid').val();
 		var companyname=$('#companyname').val();
 		var companytype=$('#companytype').val();
@@ -268,8 +340,21 @@ $(document).ready(function(){
 			}
 			
 		});
-	})
+	})*/
 	
+	$("#addbtn").click(function(){
+		$('#myModal').modal('show');  
+		$('#myModal input:text').val("");
+		$('#myModal textarea').val("");
+		refreshModule(null);
+		$('#updatebutton').click(function(){
+			insertData();
+		});
+	});
+	
+	$(".updateBtn").click(function(){
+		$('#updatebutton').click(updateData());
+	})
 })
 
 

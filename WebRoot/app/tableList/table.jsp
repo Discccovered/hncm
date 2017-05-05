@@ -29,6 +29,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <div class="col-md-12 prn pln table-wrap">
         <div class="col-md-1 prn pln left-content">
           <ul class="side-menu">
+          <li><a  href="javsscript:void(0);" onclick="goToPage('home')"><i class="glyphicon glyphicon-search"></i></a>
             <li class="active">
             <a href="javsscript:void(0);" onclick="goToPage('home')"><i class="fa fa-home"></i><span>首页</span></a></li>
             <li><a href="javsscript:void(0);" onclick="goToPage('company')"><i class="fa fa-home"></i><span>企业</span></a></li>

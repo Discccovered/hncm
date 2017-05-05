@@ -2,6 +2,7 @@ package com.purvar.demo.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
@@ -31,4 +32,7 @@ public interface CompanyDao {
 
 	@Update("UPDATE company SET  companyname=#{companyname}, companytype=#{companytype}, leagalperson=#{leagalperson}, contactphone=#{contactphone}, registerfund=#{registerfund}, registertime=#{registertime}, province=#{province}, city=#{city}, courty=#{courty}, address=#{address}, description=#{description} WHERE (companyid=#{companyid});")
 	void updateCompany(BaseCompany company);
+	
+	@Insert("insert into company(companyid,companyname,companytype,leagalperson,contactphone,registerfund,registertime,province,city,courty,description) values('#{companyid}','#{companyname}','#{companytype}','#{leagalperson}','#{contactphone}','#{registerfund}','#{registertime}','#{province}','#{city}','#{courty}','#{description}')")
+	void insertCompany(BaseCompany company);
 }

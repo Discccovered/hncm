@@ -96,8 +96,18 @@ public class CompanyAction extends BaseAction {
 	}
 	
 	public void updateCompany() throws Exception{
-		System.out.println(company);
-		System.out.println("jinlaile");
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		try {
+			companyService.updataCompany(company);
+			map.put("status", "1");
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("status", "0");
+		}
+		writeJSON(map);
+	}
+	
+	public void insertCompany() throws Exception{
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		try {
 			companyService.updataCompany(company);

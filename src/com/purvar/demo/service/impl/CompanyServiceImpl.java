@@ -1,6 +1,9 @@
 package com.purvar.demo.service.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 
@@ -18,6 +21,7 @@ import com.purvar.demo.service.CompanyService;
 @Service("companyService")
 @Transactional
 public class CompanyServiceImpl implements CompanyService {
+	
 	
 	@Resource
 	CompanyDao company;
@@ -47,6 +51,14 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	public void updataCompany(BaseCompany company) {
 		this.company.updateCompany(company);
+	}
+
+	@Override
+	public void insertCompany(BaseCompany company) {
+		SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMDDHHmmss");
+		company.setCompanyid(sdf.format(new Date()));
+		logger.debug(company);
+		this.company.insertCompany(company);
 	}
 	
 }
