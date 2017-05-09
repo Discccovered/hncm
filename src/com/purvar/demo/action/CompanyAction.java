@@ -1,10 +1,7 @@
 package com.purvar.demo.action;
 
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -62,7 +59,6 @@ public class CompanyAction extends BaseAction {
 
 	public void getCompanyById() throws Exception {
 		try {
-
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			Company company = companyService.getCompanyById(companyid);
 			map.put("company", company);
@@ -110,10 +106,21 @@ public class CompanyAction extends BaseAction {
 	public void insertCompany() throws Exception{
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		try {
-			companyService.updataCompany(company);
+			companyService.insertCompany(company);
 			map.put("status", "1");
 		} catch (Exception e) {
 			e.printStackTrace();
+			map.put("status", "0");
+		}
+		writeJSON(map);
+	}
+	
+	public void deleteOneRecord() throws Exception{
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		try {
+			companyService.deleteOneRecord(companyid);
+			map.put("status", "1");
+		} catch (Exception e) {
 			map.put("status", "0");
 		}
 		writeJSON(map);

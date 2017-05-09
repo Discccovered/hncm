@@ -2,7 +2,7 @@
   height: 51px;
   min-height: 50px;
   background-color: #3A8EFE;
-  margin-bottom: 0;
+  margin: 0;
 }
 .navbar-right li a *{
   font-size: 16px;

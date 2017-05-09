@@ -27,4 +27,6 @@ public interface CompanyService {
 	void updataCompany(BaseCompany company);
 	
 	void insertCompany(BaseCompany company);
+	
+	void deleteOneRecord(String id);
 }

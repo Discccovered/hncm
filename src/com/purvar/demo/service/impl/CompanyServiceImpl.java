@@ -55,10 +55,16 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	public void insertCompany(BaseCompany company) {
-		SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMDDHHmmss");
+		SimpleDateFormat sdf = new SimpleDateFormat("YYYYHHmmss");
+//		company.setCompanyid("000001014");
 		company.setCompanyid(sdf.format(new Date()));
 		logger.debug(company);
 		this.company.insertCompany(company);
+	}
+
+	@Override
+	public void deleteOneRecord(String id) {
+		company.deleteOneRecord(id);
 	}
 	
 }
